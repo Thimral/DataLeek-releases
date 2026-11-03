@@ -11,6 +11,8 @@ This repository hosts DataLeek's **installers, release notes and download page**
 | Windows 10/11 (64-bit) | [DataLeek-Windows-Setup.exe](https://github.com/Thimral/DataLeek-releases/releases/latest/download/DataLeek-Windows-Setup.exe) | SmartScreen: **More info → Run anyway** |
 | macOS 11+ (Apple silicon) | [DataLeek-macOS.zip](https://github.com/Thimral/DataLeek-releases/releases/latest/download/DataLeek-macOS.zip) | Drag to Applications. Open it once; when macOS blocks it, go to **System Settings → Privacy & Security** and click **Open Anyway** |
 | macOS for IT (MDM) | [DataLeek-macOS.pkg](https://github.com/Thimral/DataLeek-releases/releases/latest/download/DataLeek-macOS.pkg) | Deploy with Jamf, Intune or Kandji |
+| macOS 11+ (Intel) | [DataLeek-macOS-Intel.zip](https://github.com/Thimral/DataLeek-releases/releases/latest/download/DataLeek-macOS-Intel.zip) | Same as above |
+| Ubuntu / Debian | [DataLeek-Linux.deb](https://github.com/Thimral/DataLeek-releases/releases/latest/download/DataLeek-Linux.deb) | `sudo apt install ./DataLeek-Linux.deb` |
 | Linux (glibc 2.35+) | [DataLeek-Linux.tar.gz](https://github.com/Thimral/DataLeek-releases/releases/latest/download/DataLeek-Linux.tar.gz) | Extract, run `DataLeek/install.sh` |
 
 Every release lists its changes and includes `SHA256SUMS.txt` to verify downloads, and a software bill of materials (`DataLeek-SBOM.cdx.json`). The download page is at **https://thimral.github.io/DataLeek-releases/**.
