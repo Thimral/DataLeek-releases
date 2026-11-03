@@ -1,0 +1,28 @@
+Copyright (c) 2026 THIMRAL (PTY) LTD. All rights reserved.
+
+DataLeek, including its source code, interface, documentation, icons and
+other materials (the "Software"), is proprietary and confidential.
+
+No licence is granted to copy, modify, merge, publish, distribute,
+sublicense, sell, reverse engineer, decompile or create derivative works
+of the Software, in whole or in part, except with the prior written
+permission of THIMRAL (PTY) LTD or as permitted by applicable law.
+
+Copies of the DataLeek application published by the copyright holder may be
+installed and used. That permission does not transfer ownership of the
+Software or grant any right to its source code.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Third-party components
+----------------------
+The application includes open-source libraries (for example pandas, NumPy,
+SciPy, scikit-learn, statsmodels, Plotly and others). They remain under their
+own licences, which are reproduced in THIRD-PARTY-NOTICES.txt shipped with
+each copy of the application. Nothing in this notice restricts the rights
+those licences give you in those components.

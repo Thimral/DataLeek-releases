@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DataLeek · desktop workspace for data analysts</title>
+  <meta name="description" content="Gather, clean, analyse, chart and model data in a chat-style desktop app. Runs on your computer. Free download for Windows, macOS and Linux.">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --bg: #121510; --surface: #181c15; --elevated: #20261c; --border: #2d3528; --text: #ebeee4; --muted: #a4ad9b; --faint: #737c6b;
+      --accent: #c5f277; --accent-text: #162210; --soft: #1f2b19; --cyan: #63d8dd; --iris: #b4a3ff; --coral: #ffb19a;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Charter, Georgia, serif;
+      --sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      color-scheme: dark;
+    }
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) { --bg: #f5f2e9; --surface: #fbf9f3; --elevated: #ffffff; --border: #ddd6c6; --text: #1b2018; --muted: #545c4d; --faint: #868d7e;
+        --accent: #2f6b3a; --accent-text: #ffffff; --soft: #e2ebd6; --cyan: #077e86; --iris: #7560b9; --coral: #be6045; color-scheme: light; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent); }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+    nav { display: flex; align-items: center; gap: 12px; padding: 18px 0; }
+    .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); color: var(--accent-text); display: grid; place-items: center; flex: 0 0 32px; }
+    .mark svg { width: 19px; height: 19px; }
+    .brand { font: 700 21px/1 var(--serif); }
+    nav .links { margin-left: auto; display: flex; gap: 18px; font-size: 14px; }
+    nav .links a { color: var(--muted); text-decoration: none; }
+    nav .links a:hover { color: var(--text); }
+    header.hero { padding: 56px 0 28px; text-align: center; }
+    .kicker { font: 600 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+    h1 { font: 500 clamp(34px, 6vw, 60px)/1.05 var(--serif); letter-spacing: -.02em; margin: 16px auto 16px; max-width: 16ch; }
+    .lede { color: var(--muted); font-size: clamp(16px, 2vw, 19px); max-width: 60ch; margin: 0 auto 28px; }
+    .cta { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 20px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface);
+      color: var(--text); font-weight: 600; text-decoration: none; transition: transform .1s, filter .1s; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+    .btn small { font-weight: 500; opacity: .75; }
+    .btn svg { width: 18px; height: 18px; }
+    .meta { color: var(--faint); font-size: 13px; margin-top: 14px; }
+    .shot { margin: 44px auto 0; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 30px 80px #0007; max-width: 1100px; }
+    .shot img { display: block; width: 100%; height: auto; }
+    section { padding: 64px 0 8px; }
+    h2 { font: 500 clamp(26px, 3.4vw, 36px)/1.15 var(--serif); margin: 0 0 8px; }
+    .sub { color: var(--muted); margin: 0 0 26px; max-width: 64ch; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; }
+    .card h3 { margin: 10px 0 6px; font-size: 17px; }
+    .card p { margin: 0; color: var(--muted); font-size: 15px; }
+    .card .ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--soft); color: var(--accent); }
+    .card .ic svg { width: 20px; height: 20px; }
+    .card ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: 14px; }
+    .say { font-family: var(--mono); font-size: 13px; background: var(--elevated); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; display: inline-block; margin: 3px 2px; color: var(--text); }
+    .downloads { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .dl { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+    .dl.here { border-color: var(--accent); }
+    .dl h3 { margin: 0; display: flex; align-items: center; gap: 10px; }
+    .dl p, .dl li { color: var(--muted); font-size: 14px; margin: 0; }
+    .dl ol { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+    .dl .btn { justify-content: center; margin-top: auto; }
+    .tag { font: 600 11px/1 var(--mono); color: var(--accent-text); background: var(--accent); padding: 4px 7px; border-radius: 6px; }
+    .themes { display: flex; flex-wrap: wrap; gap: 10px; }
+    .sw { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px 6px 6px; background: var(--surface); font-size: 14px; }
+    .sw i { width: 22px; height: 22px; border-radius: 50%; display: block; border: 1px solid #fff2; }
+    details { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 18px; margin-bottom: 10px; }
+    summary { cursor: pointer; font-weight: 600; }
+    details p { color: var(--muted); margin: 10px 0 0; }
+    footer { color: var(--faint); font-size: 13px; padding: 60px 0 40px; text-align: center; }
+    @media (max-width: 640px) { nav .links { display: none; } header.hero { padding-top: 28px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <div class="mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M8 25V17M16 25V11M24 25V5" stroke="currentColor" stroke-width="4" stroke-linecap="square"/></svg></div>
+      <span class="brand">DataLeek</span>
+      <div class="links"><a href="#features">Features</a><a href="#download">Download</a><a href="#faq">FAQ</a><a href="https://github.com/Thimral/DataLeek-releases/releases">Release notes</a></div>
+    </nav>
+
+    <header class="hero">
+      <div class="kicker">Free desktop app · Windows · macOS · Linux</div>
+      <h1>Ask your data. Get charts, tests and models.</h1>
+      <p class="lede">DataLeek is a chat-style workspace for data analysts. Bring data in, ask in plain English or pick from 57 tools, and turn the answers into a report. Everything runs on your computer.</p>
+      <div class="cta">
+        <a class="btn primary" id="primary" href="#download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M7 11l5 5 5-5M4 20h16"/></svg><span id="primary-label">Download DataLeek</span></a>
+        <a class="btn" href="#download">All downloads</a>
+      </div>
+      <div class="meta" id="version">Latest version from GitHub Releases</div>
+      <div class="shot"><picture><source srcset="screenshot-light.png" media="(prefers-color-scheme: light)"><img src="screenshot-dark.png" alt="DataLeek showing a dataset, suggested questions and a bar chart of average revenue by region, with the column list in a side panel." width="1440" height="900"></picture></div>
+    </header>
+
+    <section id="features">
+      <h2>From raw file to finished report</h2>
+      <p class="sub">Type what you want to know, or open the tool picker. Each answer arrives as tables, charts and plain-language interpretation you can pin to a report.</p>
+      <p><span class="say">average revenue by region</span><span class="say">revenue vs marketing spend</span><span class="say">compare tenure by churned</span><span class="say">fill missing satisfaction with median</span><span class="say">predict churned</span><span class="say">forecast demand 30 days</span></p>
+      <div class="grid" style="margin-top:22px">
+        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></div><h3>Gather</h3><p>Drop in CSV, Excel (every sheet), JSON, Parquet, SQLite, PDF and HTML tables. Paste from a spreadsheet, fetch a URL, JSON API or Google Sheet, or generate test data.</p></div>
+        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4-4 10-10 7 7-7 7Z"/><path d="M7 21h14"/></svg></div><h3>Clean &amp; transform</h3><p>Fill or drop gaps, dedupe, filter, convert types, formulas, bins, pivots, joins, outliers and masking. Every change is a version you can undo.</p></div>
+        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M8 17V11M13 17V7M18 17v-4"/></svg></div><h3>Visualize</h3><p>31 interactive chart types, trends over time, scatter matrices and heatmaps, styled to your theme and exportable as PNG or SVG.</p></div>
+        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L4.5 18.5A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.7-2.5L14 9V3"/></svg></div><h3>Infer</h3><p>Group comparisons that pick the right test, 15 hypothesis tests, correlations, confidence intervals, regression with readable coefficients, and A/B tests.</p></div>
+        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="12" r="2"/><path d="M7 6.5 17 11.5M7 17.5l10-5"/></svg></div><h3>Model</h3><p>Train and compare predictive models with honest hold-out scores and feature importance. Segment, detect anomalies and forecast, then score new data.</p></div>
+        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg></div><h3>Report</h3><p>Pin results, add notes and export to HTML with interactive charts, PDF, Word or Markdown. Export data to CSV, Excel, Parquet or JSON.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Private by default, AI if you want it</h2>
+      <p class="sub">No account, no telemetry, and no internet needed to analyse. Want AI help? Run a free local model with Ollama (no account, no key), or connect Claude, ChatGPT, Grok, DeepSeek or Gemini with your own key. The assistant plans multi-step analyses and explains the results. It sees column summaries, not your rows, and every calculation still runs locally.</p>
+      <h2 style="font-size:24px;margin-top:30px">Pick a look</h2>
+      <p class="sub">Eight themes built on the DataLeek palette, plus one that follows your system.</p>
+      <div class="themes">
+        <span class="sw"><i style="background:linear-gradient(135deg,#121510 50%,#c5f277 50%)"></i>Leek</span>
+        <span class="sw"><i style="background:linear-gradient(135deg,#f5f2e9 50%,#2f6b3a 50%)"></i>Daylight</span>
+        <span class="sw"><i style="background:linear-gradient(135deg,#212121 50%,#c5f277 50%)"></i>Graphite</span>
+        <span class="sw"><i style="background:linear-gradient(135deg,#ffffff 50%,#2f6b3a 50%)"></i>Paper</span>
+        <span class="sw"><i style="background:linear-gradient(135deg,#0f1618 50%,#63d8dd 50%)"></i>Lagoon</span>
+        <span class="sw"><i style="background:linear-gradient(135deg,#14121b 50%,#b4a3ff 50%)"></i>Iris</span>
+        <span class="sw"><i style="background:linear-gradient(135deg,#f7f1ea 50%,#b5573b 50%)"></i>Coral</span>
+        <span class="sw"><i style="background:linear-gradient(135deg,#000 50%,#d9ff8a 50%)"></i>High contrast</span>
+      </div>
+    </section>
+
+    <section id="download">
+      <h2>Download</h2>
+      <p class="sub">DataLeek checks for new versions once a day and offers to install them. You can also come back here any time.</p>
+      <div class="downloads">
+        <div class="dl" data-os="windows">
+          <h3>Windows <span class="tag here-tag" hidden>Your system</span></h3>
+          <p>Windows 10 or 11, 64-bit. Installs for your user account, no administrator rights needed.</p>
+          <ol><li>Run <b>DataLeek-Windows-Setup.exe</b>.</li><li>If SmartScreen appears, choose <b>More info → Run anyway</b>.</li></ol>
+          <a class="btn primary" href="https://github.com/Thimral/DataLeek-releases/releases/latest/download/DataLeek-Windows-Setup.exe">Download for Windows</a>
+        </div>
+        <div class="dl" data-os="macos">
+          <h3>macOS <span class="tag here-tag" hidden>Your system</span></h3>
+          <p>macOS 11 or later on Apple silicon (M1 and newer).</p>
+          <ol><li>Unzip and drag <b>DataLeek.app</b> to Applications.</li><li>The first time, right-click it and choose <b>Open</b>.</li></ol>
+          <a class="btn primary" href="https://github.com/Thimral/DataLeek-releases/releases/latest/download/DataLeek-macOS.zip">Download for macOS</a>
+        </div>
+        <div class="dl" data-os="linux">
+          <h3>Linux <span class="tag here-tag" hidden>Your system</span></h3>
+          <p>64-bit, glibc 2.35 or newer (Ubuntu 22.04+, Fedora 36+, Debian 12+). Opens in your browser.</p>
+          <ol><li>Extract the archive.</li><li>Run <code>DataLeek/install.sh</code> to add it to your app menu.</li></ol>
+          <a class="btn primary" href="https://github.com/Thimral/DataLeek-releases/releases/latest/download/DataLeek-Linux.tar.gz">Download for Linux</a>
+        </div>
+      </div>
+      <p class="meta">Checksums: <a href="https://github.com/Thimral/DataLeek-releases/releases/latest/download/SHA256SUMS.txt">SHA256SUMS.txt</a> · <a href="https://github.com/Thimral/DataLeek-releases/releases">All releases and release notes</a></p>
+    </section>
+
+    <section id="faq">
+      <h2>Questions</h2>
+      <details><summary>Where is my data stored?</summary><p>In a single local database in your user folder (Windows: %APPDATA%\DataLeek, macOS: ~/Library/Application Support/DataLeek, Linux: ~/.local/share/dataleek). Copy that folder to back up or move your work. Settings → Data &amp; privacy opens it.</p></details>
+      <details><summary>Does it need the internet?</summary><p>No. The internet is only used when you import from a web address, Kaggle, Hugging Face or OpenML, query a database you set up, check for updates, or use a cloud AI provider.</p></details>
+      <details><summary>Can my company deploy it?</summary><p>Yes. It installs per user without administrator rights or machine-wide, connects read-only to PostgreSQL, MySQL, SQL Server and ODBC sources, keeps passwords in the system keychain, makes daily backups and keeps a local audit log. IT can manage features and settings with a policy file and host updates internally. Ask for the IT guide.</p></details>
+      <details><summary>How do updates work?</summary><p>Once a day DataLeek asks GitHub for the latest release. If there is one, it shows the release notes and downloads the installer for your system, verifying its checksum. On Windows it can install and restart for you; on macOS and Linux it opens the download.</p></details>
+      <details><summary>Why does my computer warn me the first time?</summary><p>Windows and macOS warn about apps that aren't signed with a paid developer certificate. The steps under each download let you open it anyway; the checksums file lets you verify the download.</p></details>
+      <details><summary>How big can my files be?</summary><p>Up to 50 MB per file, 100,000 rows and 200 columns per table. Model training samples up to 5,000 rows so it stays responsive.</p></details>
+    </section>
+
+    <footer>© 2026 THIMRAL (PTY) LTD. All rights reserved. · <a href="https://github.com/Thimral/DataLeek-releases/issues">Report a problem</a> · <a href="https://github.com/Thimral/DataLeek-releases/blob/main/SECURITY.md">Security</a></footer>
+  </div>
+  <script>
+    (function () {
+      var ua = navigator.userAgent, os = /Windows/i.test(ua) ? "windows" : /Mac/i.test(ua) ? "macos" : /Linux|X11/i.test(ua) && !/Android/i.test(ua) ? "linux" : null;
+      var names = { windows: "Windows", macos: "macOS", linux: "Linux" };
+      if (os) {
+        var card = document.querySelector('.dl[data-os="' + os + '"]');
+        card.classList.add("here"); card.querySelector(".here-tag").hidden = false;
+        var link = card.querySelector("a.btn");
+        document.getElementById("primary").href = link.href;
+        document.getElementById("primary-label").textContent = "Download for " + names[os];
+      }
+      fetch("https://api.github.com/repos/Thimral/DataLeek-releases/releases/latest").then(function (r) { return r.ok ? r.json() : null; }).then(function (release) {
+        if (!release || !release.tag_name) { document.getElementById("version").textContent = "The first version is on its way. Check back soon."; return; }
+        var date = release.published_at ? new Date(release.published_at).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" }) : "";
+        document.getElementById("version").textContent = "Version " + release.tag_name.replace(/^v/, "") + (date ? " · released " + date : "");
+      }).catch(function () {});
+    })();
+  </script>
+</body>
+</html>

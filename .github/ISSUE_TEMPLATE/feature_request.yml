@@ -1,0 +1,20 @@
+name: Suggest a feature
+description: An idea that would make DataLeek more useful
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: Describe the task or problem, not just the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would help?
+  - type: dropdown
+    id: context
+    attributes:
+      label: Where do you use DataLeek?
+      options: ["Personal use", "At work", "Teaching or studying", "Other"]

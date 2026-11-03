@@ -1,0 +1,40 @@
+name: Report a problem
+description: Something doesn't work as expected
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for reporting. Please don't include private data, passwords or API keys.
+  - type: input
+    id: version
+    attributes:
+      label: DataLeek version
+      description: Settings → About
+      placeholder: "1.0.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options: ["Windows 11", "Windows 10", "macOS", "Linux", "Other"]
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. Open a sample dataset\n2. Ask …\n3. …"
+  - type: markdown
+    attributes:
+      value: "**Diagnostics:** Settings → About → **Save diagnostics** makes a zip with the app log and versions, without data, keys or code. Drag it into the box below."
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics zip or screenshots
