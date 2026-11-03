@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DataLeek privacy notice</title>
+  <meta name="description" content="How DataLeek handles your data: it runs on your computer and collects nothing.">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --bg: #121510; --surface: #181c15; --elevated: #20261c; --border: #2d3528; --text: #ebeee4; --muted: #a4ad9b; --faint: #737c6b;
+      --accent: #c5f277; --accent-text: #162210; --soft: #1f2b19; --cyan: #63d8dd; --iris: #b4a3ff; --coral: #ffb19a;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Charter, Georgia, serif;
+      --sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      color-scheme: dark;
+    }
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) { --bg: #f5f2e9; --surface: #fbf9f3; --elevated: #ffffff; --border: #ddd6c6; --text: #1b2018; --muted: #545c4d; --faint: #868d7e;
+        --accent: #2f6b3a; --accent-text: #ffffff; --soft: #e2ebd6; --cyan: #077e86; --iris: #7560b9; --coral: #be6045; color-scheme: light; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent); }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+    nav { display: flex; align-items: center; gap: 12px; padding: 18px 0; }
+    .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); color: var(--accent-text); display: grid; place-items: center; flex: 0 0 32px; }
+    .mark svg { width: 19px; height: 19px; }
+    .brand { font: 700 21px/1 var(--serif); }
+    nav .links { margin-left: auto; display: flex; gap: 18px; font-size: 14px; }
+    nav .links a { color: var(--muted); text-decoration: none; }
+    nav .links a:hover { color: var(--text); }
+    header.hero { padding: 56px 0 28px; text-align: center; }
+    .kicker { font: 600 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+    h1 { font: 500 clamp(34px, 6vw, 60px)/1.05 var(--serif); letter-spacing: -.02em; margin: 16px auto 16px; max-width: 16ch; }
+    .lede { color: var(--muted); font-size: clamp(16px, 2vw, 19px); max-width: 60ch; margin: 0 auto 28px; }
+    .cta { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 20px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface);
+      color: var(--text); font-weight: 600; text-decoration: none; transition: transform .1s, filter .1s; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+    .btn small { font-weight: 500; opacity: .75; }
+    .btn svg { width: 18px; height: 18px; }
+    .meta { color: var(--faint); font-size: 13px; margin-top: 14px; }
+    .shot { margin: 44px auto 0; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 30px 80px #0007; max-width: 1100px; }
+    .shot img { display: block; width: 100%; height: auto; }
+    section { padding: 64px 0 8px; }
+    h2 { font: 500 clamp(26px, 3.4vw, 36px)/1.15 var(--serif); margin: 0 0 8px; }
+    .sub { color: var(--muted); margin: 0 0 26px; max-width: 64ch; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; }
+    .card h3 { margin: 10px 0 6px; font-size: 17px; }
+    .card p { margin: 0; color: var(--muted); font-size: 15px; }
+    .card .ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--soft); color: var(--accent); }
+    .card .ic svg { width: 20px; height: 20px; }
+    .card ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: 14px; }
+    .say { font-family: var(--mono); font-size: 13px; background: var(--elevated); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; display: inline-block; margin: 3px 2px; color: var(--text); }
+    .downloads { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .dl { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+    .dl.here { border-color: var(--accent); }
+    .dl h3 { margin: 0; display: flex; align-items: center; gap: 10px; }
+    .dl p, .dl li { color: var(--muted); font-size: 14px; margin: 0; }
+    .dl ol { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+    .dl .btn { justify-content: center; margin-top: auto; }
+    .tag { font: 600 11px/1 var(--mono); color: var(--accent-text); background: var(--accent); padding: 4px 7px; border-radius: 6px; }
+    .themes { display: flex; flex-wrap: wrap; gap: 10px; }
+    .sw { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px 6px 6px; background: var(--surface); font-size: 14px; }
+    .sw i { width: 22px; height: 22px; border-radius: 50%; display: block; border: 1px solid #fff2; }
+    details { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 18px; margin-bottom: 10px; }
+    summary { cursor: pointer; font-weight: 600; }
+    details p { color: var(--muted); margin: 10px 0 0; }
+    footer { color: var(--faint); font-size: 13px; padding: 60px 0 40px; text-align: center; }
+    @media (max-width: 640px) { nav .links { display: none; } header.hero { padding-top: 28px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap" style="max-width:760px">
+    <nav><a href="./" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit"><div class="mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M8 25V17M16 25V11M24 25V5" stroke="currentColor" stroke-width="4" stroke-linecap="square"/></svg></div><span class="brand">DataLeek</span></a></nav>
+    <section style="padding-top:24px">
+      <h1 style="text-align:left;margin:0 0 8px;max-width:none;font-size:40px">Privacy notice</h1>
+      <p class="sub">Last updated 3 November 2026. DataLeek is made by THIMRAL (PTY) LTD, South Africa.</p>
+      <h2 style="font-size:24px">The short version</h2>
+      <p>DataLeek runs on your computer. We don't collect, receive or store your data, and the app has no account, analytics or telemetry.</p>
+      <h2 style="font-size:24px">What stays on your computer</h2>
+      <p>Datasets, analyses, notebooks, reports, models, settings, backups and the audit log are stored in DataLeek's folder on your computer. API keys and database passwords are kept in your system keychain. You can erase everything from Settings → Data &amp; privacy.</p>
+      <h2 style="font-size:24px">When DataLeek uses the internet</h2>
+      <p>Only when you ask it to, or for update checks:</p>
+      <ul style="color:var(--muted)">
+        <li><b>Update checks</b> (once a day, can be turned off): the app asks GitHub for the latest version. GitHub sees your IP address, as with any website visit.</li>
+        <li><b>Online imports</b> from a web address, Kaggle, Hugging Face or OpenML: the request goes to that site.</li>
+        <li><b>Database connections</b> you set up: queries go to your database server.</li>
+        <li><b>Cloud AI providers</b> you choose (for example Claude or ChatGPT) with your own key: column names, summary statistics and, only if you allow it, five sample rows are sent to that provider under your agreement with them. With a local model (Ollama or LM Studio) nothing leaves your computer.</li>
+      </ul>
+      <h2 style="font-size:24px">This website and downloads</h2>
+      <p>This page and the downloads are hosted by GitHub, which processes visitors' IP addresses and similar technical data under the <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a>. The page sets no cookies and has no trackers.</p>
+      <h2 style="font-size:24px">Support requests</h2>
+      <p>If you open an issue or send us a diagnostics file, we use what you share only to help you. Diagnostics files contain the app log and version details, not your datasets, keys or code. Please don't post private data in public issues.</p>
+      <h2 style="font-size:24px">Your rights and contact</h2>
+      <p>Under South Africa's Protection of Personal Information Act (POPIA) and similar laws, you may ask what personal information we hold about you and have it corrected or deleted. Contact us by opening an issue at <a href="https://github.com/Thimral/DataLeek-releases/issues">github.com/Thimral/DataLeek-releases</a>.</p>
+    </section>
+    <footer>© 2026 THIMRAL (PTY) LTD. All rights reserved. · <a href="./">DataLeek</a></footer>
+  </div>
+</body>
+</html>
