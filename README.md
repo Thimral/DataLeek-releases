@@ -1,8 +1,12 @@
 # DataLeek
 
-**A desktop workspace for data analysts.** Bring data in, ask questions in plain English or pick from 57 tools, and turn the answers into a report. Everything runs on your computer.
+**DataLeek Personal: learn the craft, keep the tools.** Eight guided analytics projects and 24 practical checks, plus the complete analytical workspace for your own data. Learn and Work run locally; no DataLeek account is needed.
 
 This repository hosts DataLeek's **installers, release notes and download page**. The source code is private.
+
+## Once-off licences
+
+The static website presents one product: DataLeek Personal, R2,995 excluding VAT, for one person on one activated device. All analytical features are included. The PayFast payment link is deliberately unconfigured until supplied by the seller. See [sales-site setup](docs/SELLING.md) for checkout and manual offline device activation. No account or payment backend is required. Version 1.2 source and website changes do not publish new installers; check release notes for the available build.
 
 ## Download
 
@@ -21,6 +25,7 @@ Installed copies check this repository once a day and offer new versions. Nothin
 
 ## What it does
 
+- **Learn:** data quality, cleaning, charts, SQL, Python, statistics, models and reports. Local hints, worked examples, practice checks and progress; no required AI key or professional certification claim.
 - **Gather:** files (CSV, Excel, JSON, Parquet, SQLite, PDF tables and more), pasted tables, web addresses, Kaggle, Hugging Face and OpenML, and read-only database connections (PostgreSQL, MySQL, SQL Server, ODBC).
 - **Clean, analyse and chart:** 57 tools with plain-language interpretation, undoable versions for every change, 31 chart types, statistics and machine learning.
 - **Code:** a Python notebook over your data when you want full control.
@@ -35,4 +40,4 @@ Installed copies check this repository once a day and offer new versions. Nothin
 
 ## License
 
-Copyright © 2026 THIMRAL (PTY) LTD. All rights reserved. DataLeek is proprietary software: you may install and use published copies; see [LICENSE](LICENSE). Open-source components included in the app keep their own licences, listed in `THIRD-PARTY-NOTICES.txt` inside each installation.
+Copyright © 2026 THIMRAL (PTY) LTD. All rights reserved. DataLeek is proprietary software. Published copies require the applicable licence; Personal is for one person on one activated device. See [LICENSE](LICENSE) and [purchase terms](site/terms.html). Open-source components included in the app keep their own licences, listed in `THIRD-PARTY-NOTICES.txt` inside each installation.

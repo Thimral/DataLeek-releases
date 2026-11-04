@@ -1,185 +1,175 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DataLeek · desktop workspace for data analysts</title>
-  <meta name="description" content="Gather, clean, analyse, chart and model data in a chat-style desktop app. Runs on your computer. Free download for Windows, macOS and Linux.">
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <style>
-    :root {
-      --bg: #121510; --surface: #181c15; --elevated: #20261c; --border: #2d3528; --text: #ebeee4; --muted: #a4ad9b; --faint: #737c6b;
-      --accent: #c5f277; --accent-text: #162210; --soft: #1f2b19; --cyan: #63d8dd; --iris: #b4a3ff; --coral: #ffb19a;
-      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Charter, Georgia, serif;
-      --sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-      color-scheme: dark;
-    }
-    @media (prefers-color-scheme: light) {
-      :root:not([data-theme="dark"]) { --bg: #f5f2e9; --surface: #fbf9f3; --elevated: #ffffff; --border: #ddd6c6; --text: #1b2018; --muted: #545c4d; --faint: #868d7e;
-        --accent: #2f6b3a; --accent-text: #ffffff; --soft: #e2ebd6; --cyan: #077e86; --iris: #7560b9; --coral: #be6045; color-scheme: light; }
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
-    a { color: var(--accent); }
-    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
-    nav { display: flex; align-items: center; gap: 12px; padding: 18px 0; }
-    .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); color: var(--accent-text); display: grid; place-items: center; flex: 0 0 32px; }
-    .mark svg { width: 19px; height: 19px; }
-    .brand { font: 700 21px/1 var(--serif); }
-    nav .links { margin-left: auto; display: flex; gap: 18px; font-size: 14px; }
-    nav .links a { color: var(--muted); text-decoration: none; }
-    nav .links a:hover { color: var(--text); }
-    header.hero { padding: 56px 0 28px; text-align: center; }
-    .kicker { font: 600 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
-    h1 { font: 500 clamp(34px, 6vw, 60px)/1.05 var(--serif); letter-spacing: -.02em; margin: 16px auto 16px; max-width: 16ch; }
-    .lede { color: var(--muted); font-size: clamp(16px, 2vw, 19px); max-width: 60ch; margin: 0 auto 28px; }
-    .cta { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 20px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface);
-      color: var(--text); font-weight: 600; text-decoration: none; transition: transform .1s, filter .1s; }
-    .btn:hover { transform: translateY(-1px); }
-    .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
-    .btn small { font-weight: 500; opacity: .75; }
-    .btn svg { width: 18px; height: 18px; }
-    .meta { color: var(--faint); font-size: 13px; margin-top: 14px; }
-    .shot { margin: 44px auto 0; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 30px 80px #0007; max-width: 1100px; }
-    .shot img { display: block; width: 100%; height: auto; }
-    section { padding: 64px 0 8px; }
-    h2 { font: 500 clamp(26px, 3.4vw, 36px)/1.15 var(--serif); margin: 0 0 8px; }
-    .sub { color: var(--muted); margin: 0 0 26px; max-width: 64ch; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; }
-    .card h3 { margin: 10px 0 6px; font-size: 17px; }
-    .card p { margin: 0; color: var(--muted); font-size: 15px; }
-    .card .ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--soft); color: var(--accent); }
-    .card .ic svg { width: 20px; height: 20px; }
-    .card ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: 14px; }
-    .say { font-family: var(--mono); font-size: 13px; background: var(--elevated); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; display: inline-block; margin: 3px 2px; color: var(--text); }
-    .downloads { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
-    .dl { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
-    .dl.here { border-color: var(--accent); }
-    .dl h3 { margin: 0; display: flex; align-items: center; gap: 10px; }
-    .dl p, .dl li { color: var(--muted); font-size: 14px; margin: 0; }
-    .dl ol { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
-    .dl .btn { justify-content: center; margin-top: auto; }
-    .tag { font: 600 11px/1 var(--mono); color: var(--accent-text); background: var(--accent); padding: 4px 7px; border-radius: 6px; }
-    .themes { display: flex; flex-wrap: wrap; gap: 10px; }
-    .sw { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px 6px 6px; background: var(--surface); font-size: 14px; }
-    .sw i { width: 22px; height: 22px; border-radius: 50%; display: block; border: 1px solid #fff2; }
-    details { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 18px; margin-bottom: 10px; }
-    summary { cursor: pointer; font-weight: 600; }
-    details p { color: var(--muted); margin: 10px 0 0; }
-    footer { color: var(--faint); font-size: 13px; padding: 60px 0 40px; text-align: center; }
-    @media (max-width: 640px) { nav .links { display: none; } header.hero { padding-top: 28px; } }
-  </style>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Learn data analytics in the workspace you will use for real work. Eight guided projects, SQL, Python, statistics, models and reports. One personal licence, one device, one purchase.">
+  <meta name="theme-color" content="#173a2a"><title>DataLeek — Learn the craft. Own the tools.</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="site.css">
+  <script src="commerce-config.js" defer></script><script src="site.js" defer></script>
 </head>
 <body>
-  <div class="wrap">
-    <nav>
-      <div class="mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M8 25V17M16 25V11M24 25V5" stroke="currentColor" stroke-width="4" stroke-linecap="square"/></svg></div>
-      <span class="brand">DataLeek</span>
-      <div class="links"><a href="#features">Features</a><a href="#download">Download</a><a href="#faq">FAQ</a><a href="https://github.com/Thimral/DataLeek-releases/releases">Release notes</a></div>
-    </nav>
+<svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6v15M3 4h4a7 7 0 0 1 5 2 7 7 0 0 1 5-2h4v15h-4a7 7 0 0 0-5 2 7 7 0 0 0-5-2H3Z"/></symbol>
+  <symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/></symbol>
+  <symbol id="i-clean" viewBox="0 0 24 24"><path d="m7 21-4-4 10-10 7 7-7 7Z"/><path d="M7 21h14"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M8 17v-6M13 17V7M18 17v-4"/></symbol>
+  <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 8-5 4 5 4M16 8l5 4-5 4M14 4l-4 16"/></symbol>
+  <symbol id="i-calculator" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></symbol>
+  <symbol id="i-model" viewBox="0 0 24 24"><circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="12" r="2"/><path d="M7 6.5 17 11.5M7 17.5 17 12.5"/></symbol>
+  <symbol id="i-report" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v16m-6-6 6 6 6-6"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6Z"/><path d="m8 12 3 3 5-6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+  <symbol id="i-workflow" viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="15" y="15" width="6" height="6" rx="1.5"/><path d="M9 6h6a3 3 0 0 1 3 3v6M15 12l3 3 3-3M6 9v12"/></symbol>
+</svg>
 
-    <header class="hero">
-      <div class="kicker">Free desktop app · Windows · macOS · Linux</div>
-      <h1>Ask your data. Get charts, tests and models.</h1>
-      <p class="lede">DataLeek is a chat-style workspace for data analysts. Bring data in, ask in plain English or pick from 57 tools, and turn the answers into a report. Everything runs on your computer.</p>
-      <div class="cta">
-        <a class="btn primary" id="primary" href="#download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M7 11l5 5 5-5M4 20h16"/></svg><span id="primary-label">Download DataLeek</span></a>
-        <a class="btn" href="#download">All downloads</a>
-      </div>
-      <div class="meta" id="version">Latest version from GitHub Releases</div>
-      <div class="shot"><picture><source srcset="screenshot-light.png" media="(prefers-color-scheme: light)"><img src="screenshot-dark.png" alt="DataLeek showing a dataset, suggested questions and a bar chart of average revenue by region, with the column list in a side panel." width="1440" height="900"></picture></div>
-    </header>
+<a class="skip" href="#main">Skip to content</a>
 
-    <section id="features">
-      <h2>From raw file to finished report</h2>
-      <p class="sub">Type what you want to know, or open the tool picker. Each answer arrives as tables, charts and plain-language interpretation you can pin to a report.</p>
-      <p><span class="say">average revenue by region</span><span class="say">revenue vs marketing spend</span><span class="say">compare tenure by churned</span><span class="say">fill missing satisfaction with median</span><span class="say">predict churned</span><span class="say">forecast demand 30 days</span></p>
-      <div class="grid" style="margin-top:22px">
-        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></div><h3>Gather</h3><p>Drop in CSV, Excel (every sheet), JSON, Parquet, SQLite, PDF and HTML tables. Paste from a spreadsheet, fetch a URL, JSON API or Google Sheet, or generate test data.</p></div>
-        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4-4 10-10 7 7-7 7Z"/><path d="M7 21h14"/></svg></div><h3>Clean &amp; transform</h3><p>Fill or drop gaps, dedupe, filter, convert types, formulas, bins, pivots, joins, outliers and masking. Every change is a version you can undo.</p></div>
-        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M8 17V11M13 17V7M18 17v-4"/></svg></div><h3>Visualize</h3><p>31 interactive chart types, trends over time, scatter matrices and heatmaps, styled to your theme and exportable as PNG or SVG.</p></div>
-        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L4.5 18.5A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.7-2.5L14 9V3"/></svg></div><h3>Infer</h3><p>Group comparisons that pick the right test, 15 hypothesis tests, correlations, confidence intervals, regression with readable coefficients, and A/B tests.</p></div>
-        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="12" r="2"/><path d="M7 6.5 17 11.5M7 17.5l10-5"/></svg></div><h3>Model</h3><p>Train and compare predictive models with honest hold-out scores and feature importance. Segment, detect anomalies and forecast, then score new data.</p></div>
-        <div class="card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg></div><h3>Report</h3><p>Pin results, add notes and export to HTML with interactive charts, PDF, Word or Markdown. Export data to CSV, Excel, Parquet or JSON.</p></div>
-      </div>
-    </section>
+<header class="header">
+<div class="container nav">
+  <a class="brand" href="./" aria-label="DataLeek home"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M7 25V18M16 25V12M25 25V6" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></span>DataLeek</a>
+  <button class="menu-toggle" aria-expanded="false" aria-controls="nav-links">Menu <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg></button>
+  <nav id="nav-links" aria-label="Main navigation"><a href="#learn">Learn</a><a href="#work">Work</a><a href="#pricing">Your licence</a><a href="#faq">Questions</a></nav>
+  <a class="button small nav-cta" href="#pricing">Make it yours <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-external"/></svg></a>
+</div>
+</header>
 
-    <section>
-      <h2>Private by default, AI if you want it</h2>
-      <p class="sub">No account, no telemetry, and no internet needed to analyse. Want AI help? Run a free local model with Ollama (no account, no key), or connect Claude, ChatGPT, Grok, DeepSeek or Gemini with your own key. The assistant plans multi-step analyses and explains the results. It sees column summaries, not your rows, and every calculation still runs locally.</p>
-      <h2 style="font-size:24px;margin-top:30px">Pick a look</h2>
-      <p class="sub">Eight themes built on the DataLeek palette, plus one that follows your system.</p>
-      <div class="themes">
-        <span class="sw"><i style="background:linear-gradient(135deg,#121510 50%,#c5f277 50%)"></i>Leek</span>
-        <span class="sw"><i style="background:linear-gradient(135deg,#f5f2e9 50%,#2f6b3a 50%)"></i>Daylight</span>
-        <span class="sw"><i style="background:linear-gradient(135deg,#212121 50%,#c5f277 50%)"></i>Graphite</span>
-        <span class="sw"><i style="background:linear-gradient(135deg,#ffffff 50%,#2f6b3a 50%)"></i>Paper</span>
-        <span class="sw"><i style="background:linear-gradient(135deg,#0f1618 50%,#63d8dd 50%)"></i>Lagoon</span>
-        <span class="sw"><i style="background:linear-gradient(135deg,#14121b 50%,#b4a3ff 50%)"></i>Iris</span>
-        <span class="sw"><i style="background:linear-gradient(135deg,#f7f1ea 50%,#b5573b 50%)"></i>Coral</span>
-        <span class="sw"><i style="background:linear-gradient(135deg,#000 50%,#d9ff8a 50%)"></i>High contrast</span>
-      </div>
-    </section>
+<main id="main">
 
-    <section id="download">
-      <h2>Download</h2>
-      <p class="sub">DataLeek checks for new versions once a day and offers to install them. You can also come back here any time.</p>
-      <div class="downloads">
-        <div class="dl" data-os="windows">
-          <h3>Windows <span class="tag here-tag" hidden>Your system</span></h3>
-          <p>Windows 10 or 11, 64-bit. Installs for your user account, no administrator rights needed.</p>
-          <ol><li>Run <b>DataLeek-Windows-Setup.exe</b>.</li><li>If SmartScreen appears, choose <b>More info → Run anyway</b>.</li></ol>
-          <a class="btn primary" href="https://github.com/Thimral/DataLeek-releases/releases/latest/download/DataLeek-Windows-Setup.exe">Download for Windows</a>
-        </div>
-        <div class="dl" data-os="macos">
-          <h3>macOS <span class="tag here-tag" hidden>Your system</span></h3>
-          <p>macOS 11 or later. Apple silicon (M1 and newer) by default; an Intel version is linked below.</p>
-          <ol><li>Unzip and drag <b>DataLeek.app</b> to Applications.</li><li>Open it once. When macOS says it can't be checked, go to <b>System Settings → Privacy &amp; Security</b> and click <b>Open Anyway</b>.</li></ol>
-          <a class="btn primary" href="https://github.com/Thimral/DataLeek-releases/releases/latest/download/DataLeek-macOS.zip">Download for macOS</a>
-          <p class="meta" style="margin:0">Intel Mac? <a href="https://github.com/Thimral/DataLeek-releases/releases/latest/download/DataLeek-macOS-Intel.zip">Download the Intel version</a> · IT teams: <a href="https://github.com/Thimral/DataLeek-releases/releases/latest/download/DataLeek-macOS.pkg">.pkg installer</a></p>
-        </div>
-        <div class="dl" data-os="linux">
-          <h3>Linux <span class="tag here-tag" hidden>Your system</span></h3>
-          <p>64-bit, glibc 2.35 or newer (Ubuntu 22.04+, Fedora 36+, Debian 12+). Opens in your browser.</p>
-          <ol><li>Extract the archive.</li><li>Run <code>DataLeek/install.sh</code> to add it to your app menu.</li></ol>
-          <a class="btn primary" href="https://github.com/Thimral/DataLeek-releases/releases/latest/download/DataLeek-Linux.tar.gz">Download for Linux</a>
-          <p class="meta" style="margin:0">Ubuntu or Debian? <a href="https://github.com/Thimral/DataLeek-releases/releases/latest/download/DataLeek-Linux.deb">Get the .deb package</a> and install it with <code>sudo apt install ./DataLeek-Linux.deb</code></p>
-        </div>
-      </div>
-      <p class="meta">Checksums: <a href="https://github.com/Thimral/DataLeek-releases/releases/latest/download/SHA256SUMS.txt">SHA256SUMS.txt</a> · <a href="https://github.com/Thimral/DataLeek-releases/releases">All releases and release notes</a></p>
-    </section>
+<section class="hero container">
+<div class="hero-copy">
+  <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> YOUR PERSONAL ANALYTICS WORKSPACE</p>
+  <h1>Learn the craft.<br><em>Own the tools.</em></h1>
+  <p class="lead">Build confidence with data, then bring your own. Guided practice and real analytical work, together on your computer.</p>
+  <div class="hero-actions"><a class="button primary" href="#pricing">Own DataLeek <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-external"/></svg></a><a class="text-link" href="#learn">Explore the learning path <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-down"/></svg></a></div>
+  <p class="micro">One person. One device. Every analytical feature.<br>No DataLeek account. No required AI key. No subscription.</p>
+</div><div class="hero-visual">
+  <div class="visual-label"><span>01 / YOUR LEARNING PATH</span><span>FROM PRACTICE TO REAL WORK</span></div>
+  <div class="product-window"><div class="window-chrome"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>DataLeek · Learn</span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-external"/></svg></div><img src="screenshot-learn.png" alt="DataLeek Learn mode with eight practical analytics projects and local progress" width="1440" height="900" fetchpriority="high"></div>
+  <div class="visual-note"><span class="note-mark" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-book"/></svg></span><div><strong>Learn with the tools you keep.</strong><p>Your next dataset can be your own.</p></div></div>
+</div>
+</section>
 
-    <section id="faq">
-      <h2>Questions</h2>
-      <details><summary>Where is my data stored?</summary><p>In a single local database in your user folder (Windows: %APPDATA%\DataLeek, macOS: ~/Library/Application Support/DataLeek, Linux: ~/.local/share/dataleek). Copy that folder to back up or move your work. Settings → Data &amp; privacy opens it.</p></details>
-      <details><summary>Does it need the internet?</summary><p>No. The internet is only used when you import from a web address, Kaggle, Hugging Face or OpenML, query a database you set up, check for updates, or use a cloud AI provider.</p></details>
-      <details><summary>Can my company deploy it?</summary><p>Yes. It installs per user without administrator rights or machine-wide, connects read-only to PostgreSQL, MySQL, SQL Server and ODBC sources, keeps passwords in the system keychain, makes daily backups and keeps a local audit log. IT can manage features and settings with a policy file and host updates internally. Ask for the IT guide.</p></details>
-      <details><summary>How do updates work?</summary><p>Once a day DataLeek asks GitHub for the latest release. If there is one, it shows the release notes and downloads the installer for your system, verifying its checksum. On Windows it can install and restart for you; on macOS and Linux it opens the download.</p></details>
-      <details><summary>Why does my computer warn me the first time?</summary><p>Windows and macOS warn about apps that aren't signed with a paid developer certificate. The steps under each download let you open it anyway; the checksums file lets you verify the download.</p></details>
-      <details><summary>How big can my files be?</summary><p>Up to 50 MB per file, 100,000 rows and 200 columns per table. Model training samples up to 5,000 rows so it stays responsive.</p></details>
-    </section>
+<div class="principles"><div class="container principles-inner"><span>8 PRACTICAL PROJECTS</span><span>24 RESULT CHECKS</span><span>LOCAL PROGRESS</span><span>SQL + PYTHON</span><span>PERPETUAL PERSONAL LICENCE</span></div></div>
 
-    <footer>© 2026 THIMRAL (PTY) LTD. All rights reserved. · <a href="https://github.com/Thimral/DataLeek-releases/issues">Report a problem</a> · <a href="https://github.com/Thimral/DataLeek-releases/blob/main/SECURITY.md">Security</a> · <a href="privacy.html">Privacy</a></footer>
-  </div>
-  <script>
-    (function () {
-      var ua = navigator.userAgent, os = /Windows/i.test(ua) ? "windows" : /Mac/i.test(ua) ? "macos" : /Linux|X11/i.test(ua) && !/Android/i.test(ua) ? "linux" : null;
-      var names = { windows: "Windows", macos: "macOS", linux: "Linux" };
-      if (os) {
-        var card = document.querySelector('.dl[data-os="' + os + '"]');
-        card.classList.add("here"); card.querySelector(".here-tag").hidden = false;
-        var link = card.querySelector("a.btn");
-        document.getElementById("primary").href = link.href;
-        document.getElementById("primary-label").textContent = "Download for " + names[os];
-      }
-      fetch("https://api.github.com/repos/Thimral/DataLeek-releases/releases/latest").then(function (r) { return r.ok ? r.json() : null; }).then(function (release) {
-        if (!release || !release.tag_name) { document.getElementById("version").textContent = "The first version is on its way. Check back soon."; return; }
-        var date = release.published_at ? new Date(release.published_at).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" }) : "";
-        document.getElementById("version").textContent = "Version " + release.tag_name.replace(/^v/, "") + (date ? " · released " + date : "");
-      }).catch(function () {});
-    })();
-  </script>
-</body>
-</html>
+<section id="learn" class="section container">
+
+  <div class="section-heading"><p class="eyebrow">A LEARNING PATH THAT LEADS SOMEWHERE</p><h2>From your first table<br>to <em>your own process.</em></h2><p>Work through real calculations, get local feedback, and use hints when you need them. Every project is available; move at your pace.</p></div>
+  <div class="course-grid">
+<article class="course-card">
+<div class="course-card-top"><span class="course-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-table"/></svg></span><span class="course-number">01</span></div><p class="eyebrow">Start here</p><h3>Understand a dataset</h3><p>Describe what a table represents before calculating anything.</p><details><summary>What you’ll practice</summary><ul><li>Count the observations</li><li>Recognize an identifier</li><li>Find the unknown values</li></ul></details><span class="course-time"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>~15 minutes</span>
+</article>
+
+<article class="course-card">
+<div class="course-card-top"><span class="course-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clean"/></svg></span><span class="course-number">02</span></div><p class="eyebrow">Foundation</p><h3>Clean messy sales data</h3><p>Produce a clean table without silently changing the meaning of the data.</p><details><summary>What you’ll practice</summary><ul><li>Measure the duplicate problem</li><li>Remove the repeated order</li><li>Fill the unknown revenue</li></ul></details><span class="course-time"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>~20 minutes</span>
+</article>
+
+<article class="course-card">
+<div class="course-card-top"><span class="course-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chart"/></svg></span><span class="course-number">03</span></div><p class="eyebrow">Foundation</p><h3>Explore and visualize</h3><p>Compare regional sales using the correct unit and aggregation.</p><details><summary>What you’ll practice</summary><ul><li>Calculate average order revenue</li><li>Compare regional totals</li><li>Build a regional revenue chart</li></ul></details><span class="course-time"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>~20 minutes</span>
+</article>
+
+<article class="course-card">
+<div class="course-card-top"><span class="course-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-database"/></svg></span><span class="course-number">04</span></div><p class="eyebrow">Build confidence</p><h3>Answer questions with SQL</h3><p>Write queries and check their actual returned tables.</p><details><summary>What you’ll practice</summary><ul><li>Calculate total revenue</li><li>Summarize each region</li><li>Filter the grouped result</li></ul></details><span class="course-time"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>~25 minutes</span>
+</article>
+
+<article class="course-card">
+<div class="course-card-top"><span class="course-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-code"/></svg></span><span class="course-number">05</span></div><p class="eyebrow">Build confidence</p><h3>Repeat the analysis in Python</h3><p>Use pandas to produce inspectable analytical results.</p><details><summary>What you’ll practice</summary><ul><li>Create gross profit</li><li>Group with pandas</li><li>Select large orders</li></ul></details><span class="course-time"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>~25 minutes</span>
+</article>
+
+<article class="course-card">
+<div class="course-card-top"><span class="course-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-calculator"/></svg></span><span class="course-number">06</span></div><p class="eyebrow">Apply judgment</p><h3>Interpret statistics responsibly</h3><p>State what a calculation supports and what it cannot establish.</p><details><summary>What you’ll practice</summary><ul><li>Choose a robust summary</li><li>Calculate that summary</li><li>Write a defensible conclusion</li></ul></details><span class="course-time"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>~15 minutes</span>
+</article>
+
+<article class="course-card">
+<div class="course-card-top"><span class="course-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-model"/></svg></span><span class="course-number">07</span></div><p class="eyebrow">Apply judgment</p><h3>Build and evaluate a prediction model</h3><p>Train a small model while keeping evaluation separate from fitting.</p><details><summary>What you’ll practice</summary><ul><li>Choose the target</li><li>Train a bounded regression model</li><li>Protect the evaluation</li></ul></details><span class="course-time"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>~25 minutes</span>
+</article>
+
+<article class="course-card">
+<div class="course-card-top"><span class="course-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-report"/></svg></span><span class="course-number">08</span></div><p class="eyebrow">Put it together</p><h3>Deliver a report and repeat the process</h3><p>Save a report with its working and create a workflow for the next dataset.</p><details><summary>What you’ll practice</summary><ul><li>Keep the evidence</li><li>Build a reviewable report</li><li>Save and run a repeatable review</li></ul></details><span class="course-time"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>~25 minutes</span>
+</article>
+</div>
+  <p class="course-note">Included teaching data is synthetic. Checks assess specified results; they do not certify your professional competence or automatically judge the quality of every conclusion.</p>
+
+</section>
+
+<section class="workflow-section">
+<div class="container workflow-layout"><div><p class="eyebrow">UNDERSTAND THE RESULT, NOT JUST THE BUTTON</p><h2>A hint when you need it.<br><em>Your working, always.</em></h2><p>Read the idea. Try the exercise. Inspect the output. Get a hint or review a worked example, then try again.</p><p>SQL and Python checks compare results, not one exact code string. Your progress is saved locally. Reading a solution does not mark an exercise complete.</p><a class="text-link" href="#pricing">Keep your learning workspace <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-external"/></svg></a></div>
+<div class="workflow-demo"><div class="workflow-demo-head"><span class="status-dot" aria-hidden="true"></span><strong>Your first regional sales review</strong><span class="pill">EXAMPLE PROJECT</span></div><ol class="process-list"><li><span class="step-icon">1</span><div><strong>Start with a question</strong><span>What is total revenue by region?</span></div></li><li><span class="step-icon">2</span><div><strong>Try tools, SQL or Python</strong><span>Calculate the requested result on the teaching data</span></div></li><li><span class="step-icon">3</span><div><strong>Inspect and understand</strong><span>Check the result, use hints, explain your assumptions</span></div></li><li><span class="step-icon">4</span><div><strong>Make the process your own</strong><span>Save a report and repeat the steps in Work</span></div></li></ol><div class="workflow-demo-foot"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>Practice is part of the product. Every Work tool is included.</div></div></div>
+</section>
+
+<section id="work" class="section container">
+<div class="section-heading"><p class="eyebrow">THE SAME WORKSPACE. YOUR OWN DATA.</p><h2>Keep growing.<br><em>Keep working.</em></h2><p>Switch from Learn to Work whenever you’re ready. Your licence includes the full analytical toolkit from the start.</p></div>
+<div class="feature-grid">
+<article class="feature">
+<span class="feature-number">01 / GATHER & CLEAN</span><div class="feature-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-database"/></svg></div><h3>Make sense of the source.</h3><p>Import spreadsheets and data files, or connect to your own database. Profile, filter, join and transform with undoable versions.</p><span class="feature-footer">FILES · YOUR DATABASES · QUALITY CHECKS</span>
+</article>
+
+<article class="feature">
+<span class="feature-number">02 / ANALYZE & MODEL</span><div class="feature-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chart"/></svg></div><h3>Choose your method.</h3><p>Use guided analytical tools, SQL or Python. Explore charts, statistics, forecasting and models. Optional AI uses your chosen provider or local model.</p><span class="feature-footer">CHARTS · STATISTICS · SQL · PYTHON</span>
+</article>
+
+<article class="feature">
+<span class="feature-number">03 / REPORT & REPEAT</span><div class="feature-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-report"/></svg></div><h3>Leave a useful result.</h3><p>Write a report with evidence and caveats. Save workflows, apply them to fresh inputs, and keep separate report snapshots and run history.</p><span class="feature-footer">PDF · WORD · HTML · WORKFLOWS</span>
+</article>
+</div>
+<figure class="work-preview">
+<div class="window-chrome"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>DataLeek · Work</span><span>YOUR DATA. YOUR PROCESS.</span></div><img src="screenshot-work.png" alt="DataLeek Work mode analysing sales data with a regional chart and local analytical tools" width="1440" height="900" loading="lazy"><figcaption>From a practice question to your own analysis. The same tools, in the same workspace.</figcaption>
+</figure>
+
+</section>
+
+<section id="pricing" class="pricing-section">
+<div class="container personal-pricing">
+  <div class="price-intro"><p class="eyebrow">ONE PRODUCT. A WORKSPACE YOU KEEP.</p><h2>Your personal<br><em>DataLeek.</em></h2><p>All the learning projects. All the analytical tools. A licence for you, bound to your device.</p><ul class="ownership-list"><li><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>Your projects and progress stay local.</li><li><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>No DataLeek account or activation server.</li><li><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>No required AI subscription or API key.</li><li><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>Keep using your purchased major version.</li></ul><p class="micro">Your databases, drivers, storage and optional external services remain under your control. Custom integrations and bespoke training are quoted separately.</p></div>
+
+<article class="price-card featured">
+<p class="eyebrow">DATALEEK PERSONAL</p><h3>Learn. Work. Own it.</h3><p class="price"><span class="currency">R</span>2,995<span class="once">once-off · excluding VAT</span></p><p class="seat-line">1 person · 1 activated device</p><button class="button primary purchase" data-product="personal">Buy DataLeek <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-external"/></svg></button><ul><li><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>8 guided projects and 24 practice checks</li><li><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>Local hints, examples and progress</li><li><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>Every analytical Work feature</li><li><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>SQL, Python, statistics and models</li><li><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>Reports, reusable workflows and backups</li><li><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>12 months of maintenance updates</li><li><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>90 days of product support, up to 2 hours</li></ul><p class="card-foot">Perpetual use of the purchased major version. Optional future major upgrades at 35% of the equivalent new licence. No automatic renewal.</p>
+</article>
+
+</div>
+</section>
+
+<section id="activation" class="section container activation-section">
+<div><p class="eyebrow">A SIMPLE OFFLINE ACTIVATION</p><h2>Made for <em>your device.</em></h2><p>The installer opens an activation screen. A signed licence for another computer will not unlock your copy. Existing saved work can still be viewed and exported.</p><p>Ordinary copying is deterred by device binding. Offline desktop software is not impossible to modify or crack, and cloned operating-system identities can require additional handling.</p></div><ol class="activation-list"><li><span>01</span><div><h3>Export your activation request</h3><p>The app creates a hashed device code locally. No raw hardware serial, user name or analytical data is included.</p></div></li><li><span>02</span><div><h3>Purchase and send your request</h3><p>Pay through the configured PayFast checkout, then send the request with your order reference using the receipt contact.</p></div></li><li><span>03</span><div><h3>Import your signed licence</h3><p>After payment verification, the seller sends a licence for this device. Import it to unlock Learn and Work, offline.</p></div></li></ol>
+</section>
+
+<section id="downloads" class="section container download-section">
+<div><p class="eyebrow">YOUR COMPUTER. YOUR WORKSPACE.</p><h2>Windows, macOS <em>and Linux.</em></h2><p>Version 1.2 introduces Learn and the device-bound personal licence. Check the release notes for the installer version available. New installations require activation; there is no unrestricted executable trial.</p></div><div class="download-links"><a class="button" href="https://github.com/Thimral/DataLeek-releases/releases/latest">Downloads & release notes <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-external"/></svg></a><a class="text-link" href="#learn">Preview the learning path</a></div>
+</section>
+
+<section id="faq" class="section container faq-section">
+<div><p class="eyebrow">KNOW WHAT YOU’RE GETTING</p><h2>One clear offer.<br><em>No surprises.</em></h2></div><div class="faq-list">
+<details><summary>Do I get all the features?</summary><p>Yes. One personal licence includes Learn and every Work feature. Learning progress does not lock analytical tools. Advanced integrations can be enabled when you need them; there are no Company or Enterprise editions.</p></details>
+<details><summary>Do I need a DataLeek account or AI key?</summary><p>No account is needed. The course, feedback and analytical tools work without AI. If you choose optional AI, use your own provider credentials or a model endpoint you control.</p></details>
+<details><summary>What if I copy the installation to another computer?</summary><p>The new installation requires a licence matching that device. A copied licence is checked against the current computer’s independently derived code. Device binding deters ordinary sharing; it is not a guarantee against software modification or cloned OS identities.</p></details>
+<details><summary>What happens when I replace or reinstall my computer?</summary><p>An app reinstall on the same OS/device identity can reuse the signed licence. OS reinstallation, motherboard replacement or a new computer may change the device code. Export a new request and contact the seller with your receipt for a manual transfer. Stop using the previous installation; an offline system cannot remotely revoke it.</p></details>
+<details><summary>What does “own it” mean?</summary><p>You may keep using the purchased major version on your activated device. Maintenance updates are included for 12 months; support is included for 90 days, up to two hours. Future major upgrades and further support are optional purchases. You retain your rights to your own data and original work.</p></details>
+<details><summary>Is the course a professional certification?</summary><p>No. Guided checks assess specified practice results. They do not certify job readiness, guarantee employment or automatically establish that every interpretation is sound. Use the examples, inspect the working and build judgment through real practice.</p></details>
+<details><summary>Where do my progress and data live?</summary><p>In your local data folder. Backups include learning attempts and progress. Your activation request contains a one-way device code. The app does not automatically upload progress, projects or device identifiers to DataLeek.</p></details>
+<details><summary>What are the data limits?</summary><p>File imports are limited to 50 MiB, 100,000 rows and 200 columns. Model comparison uses up to 5,000 input rows, 40 input features and five candidates. Filter or aggregate larger sources in your own database before importing.</p></details>
+</div>
+</section>
+
+<section class="closing">
+<div class="container"><p class="eyebrow">CONFIDENCE COMES FROM DOING.</p><h2>Start with a lesson.<br><em>Make it your workspace.</em></h2><a class="button primary" href="#pricing">Own DataLeek <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-external"/></svg></a></div>
+</section>
+
+</main>
+
+<footer class="footer container">
+<div><a class="brand" href="./"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M7 25V18M16 25V12M25 25V6" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></span>DataLeek</a><p>Learn the craft. Own the tools.</p><small>© 2026 THIMRAL (PTY) LTD · South Africa</small></div><nav aria-label="Footer"><a href="privacy.html">Privacy</a><a href="terms.html">Purchase & licence terms</a><a href="https://github.com/Thimral/DataLeek-releases/issues">Product support</a><a href="https://github.com/Thimral/DataLeek-releases/security/advisories/new">Security</a><a id="sales-link" hidden>Sales enquiries</a></nav>
+</footer>
+
+<dialog id="purchase-dialog" aria-labelledby="purchase-title">
+<button class="dialog-close" aria-label="Close purchase details"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-close"/></svg></button><p class="eyebrow">YOUR PERSONAL ANALYTICS WORKSPACE</p><h2 id="purchase-title">Make it yours.</h2><p>Learn and Work, including every analytical feature, for one person on one device.</p><dl class="order-summary"><div><dt>Product</dt><dd>DataLeek Personal</dd></div><div><dt>Device allocation</dt><dd>1 person · 1 device</dd></div><div><dt>Once-off price, excl. VAT</dt><dd id="order-price">R2,995</dd></div></dl><p class="micro">Export the activation request from your installed app. After payment verification, send the request with your order reference; your signed device licence is delivered manually. Applicable tax must be shown by PayFast before payment.</p><form id="purchase-form"><label class="agreement"><input id="agree" type="checkbox" required><span>I have read the <a href="terms.html" target="_blank" rel="noopener">purchase and licence terms</a>, including device binding, manual transfers and support scope.</span></label><button class="button primary" id="checkout-button" type="submit">Continue to PayFast <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-external"/></svg></button></form><p id="checkout-status" role="status"></p><p class="micro">PayFast handles your payment details. No DataLeek account or automatic renewal.</p>
+</dialog>
+
+<noscript><div class="noscript">JavaScript is needed to open purchase details. Prices, terms and learning information remain readable above.</div></noscript>
+</body></html>

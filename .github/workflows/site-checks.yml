@@ -1,0 +1,24 @@
+name: Website checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths: ["site/**", "tests/**", ".github/workflows/site-checks.yml"]
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --no-save --no-package-lock playwright@1.63.0 axe-core@4.10.2
+      - run: npx playwright install --with-deps chromium
+      - run: node tests/site-smoke.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: website-screenshots
+          path: test-results/
